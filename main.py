@@ -43,7 +43,7 @@ while True:
     hub = np.dot(MM_t, hub)
     vector_sum = np.sum(hub, axis=0)
     hub = hub / vector_sum * v  # normalization
-    if not np.any(hub - old_hub):  # vector with 0's
+    if np.all(hub - old_hub < 0.00001):  # vector with 0's
         break
     print("\niteration", iteration, "hub value:\n", hub)
     old_hub = hub
@@ -57,7 +57,7 @@ while True:
     authority = np.dot(M_tM, authority)
     vector_sum = np.sum(authority, axis=0)
     authority = authority / vector_sum * v  # normalization
-    if not np.any(authority - old_authority):  # vector with 0's
+    if np.all(authority - old_authority < 0.00001):  # vector with 0's
         break
     print("\niteration", iteration, "authority value:\n", authority)
     old_authority = authority
@@ -65,5 +65,6 @@ while True:
 
 print("Authority vector convergence at iteration", iteration, ", FINAL authority value:\n", authority)
 
-print("\n\nNormalized Hub Weight: ", hub)
-print("Normalized Authority Weight: ", authority)
+np.set_printoptions(suppress=True)
+print("\n\nNormalized Hub Weight: ", np.round(hub, 4))
+print("Normalized Authority Weight: ", np.round(authority, 4))
